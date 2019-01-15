@@ -5,7 +5,7 @@ import java.util.Vector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kafka.example.model.User;
+import com.kafka.example.model.Message;
 import com.kafka.example.sender.Sender;
 import com.kafka.example.service.UserService;
 
@@ -17,17 +17,17 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private Sender sender;
 	
-	private Vector<User> list = new Vector<User>();
+	private Vector<Message> list = new Vector<Message>();
 	 
 	@Override
-	public User registerUser(User input) {
+	public Message registerUser(Message input) {
 			list.add(input);
 			sender.send("mytopic", input);
 			return input;
 	}
 
 	@Override
-	public Vector<User> findAll() {
+	public Vector<Message> findAll() {
 		return list;
 	}
 }

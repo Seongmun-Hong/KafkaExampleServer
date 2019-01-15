@@ -13,6 +13,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
+import com.kafka.example.model.Message;
 import com.kafka.example.receiver.Receiver;
 
 @Configuration
@@ -33,14 +34,14 @@ public class ReceiverConfig {
     }
  
     @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
+    public ConsumerFactory<String, Message> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
-                new JsonDeserializer<>(String.class));
+                new JsonDeserializer<>(Message.class));
     }
  
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, Message> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Message> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
  

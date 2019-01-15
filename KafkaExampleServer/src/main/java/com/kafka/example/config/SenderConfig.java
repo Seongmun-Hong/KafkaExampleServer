@@ -13,7 +13,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import com.kafka.example.model.User;
+import com.kafka.example.model.Message;
 import com.kafka.example.sender.Sender;
 
 @Configuration
@@ -33,12 +33,12 @@ public class SenderConfig {
 	}
 
 	@Bean
-	public ProducerFactory<String, User> producerFactory() {
+	public ProducerFactory<String, Message> producerFactory() {
 		return new DefaultKafkaProducerFactory<>(producerConfigs());
 	}
 
 	@Bean
-	public KafkaTemplate<String, User> kafkaTemplate() {
+	public KafkaTemplate<String, Message> kafkaTemplate() {
 		return new KafkaTemplate<>(producerFactory());
 	}
 

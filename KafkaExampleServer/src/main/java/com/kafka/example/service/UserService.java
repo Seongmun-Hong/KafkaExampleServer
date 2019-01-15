@@ -2,9 +2,9 @@ package com.kafka.example.service;
 
 import java.util.Vector;
 
-import com.kafka.example.model.User;
+import com.kafka.example.model.Message;
 
 public interface UserService {
-    User registerUser(User input);
-    Vector<User> findAll();
+    Message registerUser(Message input);
+    Vector<Message> findAll();
 }

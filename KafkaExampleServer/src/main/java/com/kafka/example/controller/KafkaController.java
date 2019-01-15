@@ -1,7 +1,10 @@
 package com.kafka.example.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,39 +17,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kafka.example.model.User;
+import com.kafka.example.model.Message;
 import com.kafka.example.service.UserService;
 
 @Controller
 public class KafkaController {
 
-    private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @Autowired
-    KafkaTemplate kafkaTemplate;
-    
-    @Autowired
-    UserService userService;
+	@Autowired
+	KafkaTemplate kafkaTemplate;
 
-    @RequestMapping("/kafka")
-    @ResponseBody
-    public String request(@RequestParam(value = "message", required = true, defaultValue = "") String message ){
+	@Autowired
+	UserService userService;
 
-        LocalDateTime date = LocalDateTime.now();
-        String dateStr = date.format(fmt);
-        kafkaTemplate.send("mytopic", dateStr + "   " + message);
-        return "kafkaTemplate.send >>  " + message ;
-     }
-    
-    @RequestMapping(method = RequestMethod.GET, path = "/member")
-    public ResponseEntity<Iterable<User>> getAll() {
-        Iterable<User> all = userService.findAll();
-        return new ResponseEntity<>(all, HttpStatus.OK);
-    }
+	@RequestMapping("/kafka")
+	@ResponseBody
+	public String request(@RequestParam(value = "message", required = true, defaultValue = "") String message) {
 
-    @RequestMapping(method = RequestMethod.POST, path = "/member")
-    public ResponseEntity<User> register(@RequestBody User input) {
-        User result = userService.registerUser(input);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+		LocalDateTime date = LocalDateTime.now();
+		String dateStr = date.format(fmt);
+		kafkaTemplate.send("mytopic", dateStr + "   " + message);
+		return "kafkaTemplate.send >>  " + message;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/message")
+	public ResponseEntity<Vector<Message>> getAll() {
+		Vector<Message> all = userService.findAll();
+		if (all != null) {
+			for (int i = 0; i < all.size(); i++) {
+				all.get(i).toString();
+			}
+		}
+		return new ResponseEntity<>(all, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, path = "/message")
+	public ResponseEntity<Message> register(@RequestBody Message input) {
+		Message result = userService.registerUser(input);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 }
