@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Message registerUser(Message input) {
 			list.add(input);
-			sender.send("mytopic", input);
+			sender.send("mytopic3", input);
 			return input;
 	}
 

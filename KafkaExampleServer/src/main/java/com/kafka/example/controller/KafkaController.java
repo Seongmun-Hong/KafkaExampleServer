@@ -31,15 +31,15 @@ public class KafkaController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping("/kafka")
-	@ResponseBody
-	public String request(@RequestParam(value = "message", required = true, defaultValue = "") String message) {
-
-		LocalDateTime date = LocalDateTime.now();
-		String dateStr = date.format(fmt);
-		kafkaTemplate.send("mytopic", dateStr + "   " + message);
-		return "kafkaTemplate.send >>  " + message;
-	}
+//	@RequestMapping("/kafka")
+//	@ResponseBody
+//	public String request(@RequestParam(value = "message", required = true, defaultValue = "") String message) {
+//
+//		LocalDateTime date = LocalDateTime.now();
+//		String dateStr = date.format(fmt);
+//		kafkaTemplate.send("mytopic", dateStr + "   " + message);
+//		return "kafkaTemplate.send >>  " + message;
+//	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/message")
 	public ResponseEntity<Vector<Message>> getAll() {
