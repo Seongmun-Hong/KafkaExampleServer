@@ -43,13 +43,17 @@ public class KafkaController {
 
 	@RequestMapping(method = RequestMethod.GET, path = "/message")
 	public ResponseEntity<Vector<Message>> getAll() {
+		
 		Vector<Message> all = userService.findAll();
+		
 		if (all != null) {
 			for (int i = 0; i < all.size(); i++) {
 				all.get(i).toString();
 			}
 		}
+		
 		return new ResponseEntity<>(all, HttpStatus.OK);
+		
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "/message")
